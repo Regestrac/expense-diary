@@ -6,7 +6,21 @@
     justify-content: space-between;
     background-color: tomato;
     color: white;
+    position: sticky;
+    top: 0;
 }
-.head h3{
+
+.head h3 {
     margin: 0 3rem 0 2rem;
+    display: flex;
+    align-items: center;
+}
+
+.total {
+    border: 2px solid white;
+    border-radius: 10px;
+    margin-left: .5rem;
+    height: 2.2rem;
+    width: fit-content;
+    min-width: 4.5rem;
 }

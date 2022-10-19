@@ -6,17 +6,17 @@
     background-color: #ee8b8b;
     padding-left: .3rem;
     color: #fff;
-    gap: 1rem;
 }
-.item-body{
+
+.item-body {
     height: 5rem;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    gap: 1rem;
-    flex: 16;
+    width: 80%;
 }
-.item-body-heading{
+
+.item-body-heading {
     height: 3rem;
     display: flex;
     align-items: center;
@@ -24,20 +24,19 @@
     background-color: #ee8b8b;
     padding-left: .3rem;
     color: #fff;
-    gap: 1rem;
-    flex: 16;
+    width: 80%;
 }
 
 .new-items {
-    height: 5rem;
+    min-height: 5rem;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    gap: 1rem;
     padding-right: .3rem;
+    padding-top: .5rem;
 }
 
-.item-list{
+.item-list {
     margin: 2.5rem .5rem 0 .5rem;
     border-radius: 1rem;
     background-color: #f5cece;
@@ -52,69 +51,92 @@
 }
 
 .item1 {
-    flex: 1;
+    width: 5%;
 }
 
 .item2 {
-    flex: 3;
+    width: 15%;
     max-width: 8rem;
 }
 
 .item3 {
-    flex: 6;
+    width: 30%;
 }
 
 .item4 {
-    flex: 7;
+    width: 35%;
 }
 
 .item5 {
-    flex: 2;
+    width: 8%;
+    word-wrap: break-word;
 }
-.sub-btn{
+
+.item6{
+    width: 7%;
+}
+
+
+.sub-btn {
     margin: 1rem;
+    width: 5rem;
     position: relative;
 }
-.sub-inp{
+
+.sub-inp {
     width: 100%;
     top: 0;
     right: 0;
     position: absolute;
     opacity: 0;
 }
-.new-btn{
+
+.new-btn {
     margin-top: 2rem;
 }
-.new-btn i{
-    margin-right: .3rem;
-}
 
-@media (max-width:520px){
-    .new-items{
+@media (max-width:520px) {
+    .new-items {
         height: fit-content;
         padding: .6rem 0;
     }
-    .item1{
+
+    .item1 {
         margin-right: auto;
         margin-left: 1rem;
     }
-    .item5{
+    .item2 {
+        width: 100%;
+    }
+    .item3 {
+        width: 100%;
+    }
+    .item4 {
+        width: 100%;
+    }
+    .item5 {
         margin-left: auto;
         margin-right: .5rem;
     }
-    .item-body-heading{
+
+    .item6 {
+        width: 8%;
+        margin-right: .5rem;
+        padding-right: .2rem;
+    }
+
+    .item-body-heading {
         display: flex;
-        gap: .5rem;
+        width: 40%;
     }
-    .item2 {
-        max-width: 100%;
-    }
-    .item-body{
+
+    .item-body {
         height: fit-content;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-evenly;
-        gap: .5rem;
+        gap: .5rem 0;
+        width: 60%;
     }
 }
