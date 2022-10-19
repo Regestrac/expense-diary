@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { nanoid } from '@reduxjs/toolkit';
 import Head from './Head';
+import './items.css';
 
 const schema = yup.object().shape({
   expenses: yup.array().of(
@@ -54,38 +55,45 @@ function Items() {
       <Head />
       <div>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <div>
-              <div>Sl. No.</div>
-              <div>Date</div>
-              <div>Item</div>
-              <div>Expenses</div>
-              <div>Total</div>
+          <div className="item-list">
+            <div className="headings">
+              <div className="item1">Sl. No.</div>
+              <div className="item-body-heading">
+                <div className="item2">Date</div>
+                <div className="item3">Item</div>
+                <div className="item4">Expenses</div>
+              </div>
+              <div className="item5">Total</div>
             </div>
             <div>
               {fields.map((item, index) => (
-                <div key={item.id}>
-                  <div>{index + 1}</div>
-                  <div>
-                    <Controller control={control} name="date" render={({ field }) => <Input type="date" {...field} />} />
+                <div key={item.id} className="new-items">
+                  <div className="item1">{index + 1}</div>
+                  <div className="item-body">
+                    <div className="item2">
+                      <Controller control={control} name="date" render={({ field }) => <Input type="date" {...field} />} />
+                    </div>
+                    <div className="item3">
+                      <Controller control={control} name="item" render={({ field }) => <Input type="text" placeholder="Add Item..." {...field} />} />
+                      {/* <small className="warn">{errors?.expenses?.[]?.item?.message}</small> */}
+                    </div>
+                    <div className="add-item item4">
+                      &#8377;
+                      <Controller control={control} name="cost" render={({ field }) => <Input type="number" placeholder="00" {...field} />} />
+                      <Button color="success"><i className="fa-solid fa-plus" /></Button>
+                    </div>
                   </div>
-                  <div>
-                    <Controller control={control} name="item" render={({ field }) => <Input placeholder="Add Item..." {...field} />} />
-                    {/* <small className="warn">{errors?.expenses?.[]?.item?.message}</small> */}
-                  </div>
-                  <div>
-                    &#8377;
-                    <Controller control={control} name="cost" render={({ field }) => <Input placeholder="00" {...field} />} />
-                    <Button color="success"><i className="fa-solid fa-plus" /></Button>
-                  </div>
-                  <div><h4>Rs. 1000</h4></div>
+                  <div className="item5"><h4>Rs. 1000</h4></div>
                 </div>
               ))}
-              <Button type="submit">Submit</Button>
+              <Button className="sub-btn">
+                <Input className="sub-inp" type="submit" />
+                Save
+              </Button>
             </div>
           </div>
         </Form>
-        <Button onClick={appendItems} color="primary">
+        <Button className="new-btn" onClick={appendItems} color="primary">
           <i className="fa-solid fa-plus" />
           New Item
         </Button>
