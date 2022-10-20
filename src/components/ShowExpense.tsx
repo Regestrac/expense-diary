@@ -1,17 +1,18 @@
-import { allExpenses } from 'features/expense/ExpenseSlice';
+import { allExpenses, deleteExpense } from 'features/expense/ExpenseSlice';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './show-expenses.css';
 import moment from 'moment';
+import { Button } from 'reactstrap';
 
 function ShowExpense() {
+  const dispatch = useDispatch();
   const expenses:{
     item:string;
     date:Date | string;
     cost:number;
     id:string
   }[] = useSelector(allExpenses);
-  console.log(expenses);
   return (
     <div className="expenses">
       {expenses.map((expense) => {
@@ -27,6 +28,7 @@ function ShowExpense() {
                 {' '}
                 {expense?.cost}
               </div>
+              <Button className="del-exp" color="danger" onClick={() => { dispatch(deleteExpense({ delId: expense?.id })); }}><i className="fa-regular fa-trash-can" /></Button>
             </div>
           );
         }

@@ -43,6 +43,11 @@
     overflow: hidden;
 }
 
+.add-item-outer{
+    display: flex;
+    flex-direction: column;
+}
+
 .add-item {
     display: flex;
     align-items: center;
@@ -97,6 +102,10 @@
 
 .total-component{
     display: none;
+}
+
+.warn{
+    color: red;
 }
 
 @media (max-width:520px) {

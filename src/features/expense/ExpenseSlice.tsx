@@ -1,12 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 type State = {
+  id:string;
   expenses:{ expenseData:[{
     id:string;
     date:Date;
     item:string;
     cost:number;
   }]
+  }
+};
+type Payload = {
+  payload:{
+    id:string;
+    date:Date;
+    item:string;
+    cost:number;
   }
 };
 
@@ -23,18 +32,25 @@ const ExpenseSlice = createSlice({
   name: 'expenses',
   initialState,
   reducers: {
-    addExpense(state:any, action:any) {
+    addExpense(state, action:Payload) {
       state.expenseData.push(action.payload);
     },
-    deleteExpense(state:any, action:any) {
-      state.expenseData = state.expenses.filter((states:any) => states.id !== action.payload.delId);
+    deleteExpense(state, action:{ payload:{ delId:string } }) {
+      state.expenseData = state.expenseData.filter(
+        (states) => states.id !== action.payload.delId,
+      );
     },
-    changeExpense(state:any, action:any) {
-      state.expenseData = state.expenses.map((states:any) => (
+    changeExpense(state:any, action:{ payload:{
+      changeId:string;
+      newDate: Date | string;
+      newItem:string;
+      newCost:number;
+    } }) {
+      state.expenseData = state.expenseData.map((states:State) => (
         states.id === action.payload.changeId ? {
           ...states,
           date: action.payload.newDate,
-          item: action.paylload.newItem,
+          item: action.payload.newItem,
           cost: action.payload.newCost,
         }
           : states));

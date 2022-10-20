@@ -16,20 +16,31 @@ import ShowExpense from './ShowExpense';
 const schema = yup.object().shape({
   expenses: yup.array().of(
     yup.object().shape({
-      date: yup.date(),
+      date: yup.date().optional(),
       item: yup.string().required('Item required!'),
-      cost: yup.number(),
+      cost: yup.number().typeError('Please Enter numbere only!'),
     }),
   ),
 });
 
 function Items() {
+  // type FormValues = {
+  //   expenses:{
+  //     id:string;
+  //     date: Date | string;
+  //     item: string;
+  //     cost:number
+  //   }
+  // };
+
   const [total, setTotal] = useState(0);
   const [value, setValue] = useState([{ cost: 0 }]);
   const [delBtn, setDelBtn] = useState(false);
   const dispatch = useDispatch();
 
-  const { control, handleSubmit } = useForm({
+  const {
+    control, handleSubmit, reset, formState: { errors },
+  }:{ control:any;handleSubmit:any; reset:any; formState:{ errors:any } } = useForm({
     resolver: yupResolver(schema),
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -78,7 +89,6 @@ function Items() {
   };
 
   const onSubmit = (data: any) => {
-    console.log(data);
     for (let i = 0; i < data.expenses.length; i += 1) {
       dispatch(addExpense({
         id: data.expenses[i].id,
@@ -87,6 +97,7 @@ function Items() {
         cost: data.expenses[i].cost,
       }));
     }
+    reset();
   };
 
   return (
@@ -115,23 +126,20 @@ function Items() {
                     </div>
                     <div className="item3">
                       <Controller control={control} name={`expenses[${index}].item`} render={({ field }) => <Input type="text" placeholder="Add Item..." {...field} />} />
-                      {/* <small className="warn">{errors?.expenses?.[0]?.item?.message}</small> */}
+                      <small className="warn">{ errors?.expenses?.[index]?.item?.message }</small>
                     </div>
-                    <div className="add-item item4">
-                      &#8377;
-                      {' '}
-                      <Controller control={control} name={`expenses[${index}].cost`} render={({ field }) => <Input type="number" placeholder="00" {...field} />} />
-                      <Button
-                        onClick={() => {
-                          append({
-                            cost: 0,
-                          });
-                        }}
-                        color="success"
-                      >
-                        <i className="fa-solid fa-plus" />
-
-                      </Button>
+                    <div className="add-item-outer item4">
+                      <div className="add-item">
+                        &#8377;
+                        {' '}
+                        <Controller control={control} name={`expenses[${index}].cost`} render={({ field }) => <Input type="number" placeholder="00" {...field} />} />
+                        <Button color="success">
+                          <i className="fa-solid fa-plus" />
+                        </Button>
+                      </div>
+                      <div>
+                        <small className="warn">{ errors?.expenses?.[index]?.cost?.message }</small>
+                      </div>
                     </div>
                   </div>
                   <div className="item5">
