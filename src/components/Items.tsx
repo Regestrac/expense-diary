@@ -11,6 +11,7 @@ import { addExpense } from 'features/expense/ExpenseSlice';
 
 import Head from './Head';
 import './items.css';
+import ShowExpense from './ShowExpense';
 
 const schema = yup.object().shape({
   expenses: yup.array().of(
@@ -159,6 +160,7 @@ function Items() {
       <div className="total-component">
         <Total />
       </div>
+      <ShowExpense />
     </div>
   );
 }
