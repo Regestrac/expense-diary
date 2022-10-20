@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import moment from 'moment';
 
 type State = {
   id:string;
   expenses:{ expenseData:[{
     id:string;
-    date:Date;
+    date:Date | string;
     item:string;
     cost:number;
   }]
@@ -13,7 +14,7 @@ type State = {
 type Payload = {
   payload:{
     id:string;
-    date:Date;
+    date:string;
     item:string;
     cost:number;
   }
@@ -22,7 +23,7 @@ type Payload = {
 const initialState = {
   expenseData: [{
     id: '',
-    date: new Date(),
+    date: moment().format('L'),
     item: '',
     cost: 0,
   }],

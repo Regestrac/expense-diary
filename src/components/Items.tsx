@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { nanoid } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { addExpense } from 'features/expense/ExpenseSlice';
+import moment from 'moment';
 
 import Head from './Head';
 import './items.css';
@@ -54,7 +55,7 @@ function Items() {
   useMemo(() => {
     if (fields.length < 1) {
       append({
-        date: new Date(),
+        date: moment().format('L').toString(),
         item: '',
         cost: 0,
         id: nanoid(),
@@ -67,7 +68,7 @@ function Items() {
   }, [fields]);
   const appendItems = () => {
     append({
-      date: new Date(),
+      date: moment().format('L').toString(),
       item: '',
       cost: 0,
       id: nanoid(),
@@ -92,12 +93,13 @@ function Items() {
     for (let i = 0; i < data.expenses.length; i += 1) {
       dispatch(addExpense({
         id: data.expenses[i].id,
-        date: data.expenses[i].date,
+        date: moment(data.expenses[i].date).format('L').toString(),
         item: data.expenses[i].item,
         cost: data.expenses[i].cost,
       }));
     }
     reset();
+    remove();
   };
 
   return (

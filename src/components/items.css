@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    background-color: #ee8b8b;
+    background-color: #6ebfee;
     padding-left: .3rem;
     color: #fff;
 }
@@ -21,7 +21,7 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    background-color: #ee8b8b;
+    background-color: #6ebfee;
     padding-left: .3rem;
     color: #fff;
     width: 80%;
@@ -39,7 +39,7 @@
 .item-list {
     margin: 2.5rem .5rem 0 .5rem;
     border-radius: 1rem;
-    background-color: #f5cece;
+    background-color: #b0e2ff;
     overflow: hidden;
 }
 
@@ -134,7 +134,7 @@
 
     .item6 {
         width: 8%;
-        margin-right: .5rem;
+        margin-right: 1rem;
         padding-right: .2rem;
     }
 

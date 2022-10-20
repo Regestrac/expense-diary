@@ -21,7 +21,7 @@ function ShowExpense() {
             <div key={expense.id} className="exp-box">
               <div className="exp-heads">
                 <div className="exp-item">{expense?.item}</div>
-                <div className="exp-date">{moment(expense?.date).format('L')}</div>
+                <div className="exp-date">{moment(expense?.date).format('L').toString()}</div>
               </div>
               <div className="exp-cost">
                 &#8377;

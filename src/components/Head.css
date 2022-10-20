@@ -4,10 +4,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: tomato;
+    background-color: dodgerblue;
     color: white;
     position: sticky;
     top: 0;
+    z-index: 10;
 }
 
 .title-h3 {
