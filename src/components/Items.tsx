@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
 import React, { useMemo, useState } from 'react';
 import {
   Controller, useFieldArray, useForm, useWatch,
@@ -7,6 +6,9 @@ import { Button, Form, Input } from 'reactstrap';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { nanoid } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
+import { addExpense } from 'features/expense/ExpenseSlice';
+
 import Head from './Head';
 import './items.css';
 
@@ -24,6 +26,7 @@ function Items() {
   const [total, setTotal] = useState(0);
   const [value, setValue] = useState([{ cost: 0 }]);
   const [delBtn, setDelBtn] = useState(false);
+  const dispatch = useDispatch();
 
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(schema),
@@ -65,9 +68,8 @@ function Items() {
       control,
     });
     setValue(formValues || 0);
-    console.log('formValues: ', formValues);
     const totalCost = formValues?.reduce(
-      (acc:any, current:any) => (parseInt(acc || 0, 10) + parseInt(current.cost || 0, 10)),
+      (acc: any, current: any) => (parseInt(acc || 0, 10) + parseInt(current.cost || 0, 10)),
       0,
     );
     setTotal(totalCost);
@@ -76,6 +78,14 @@ function Items() {
 
   const onSubmit = (data: any) => {
     console.log(data);
+    for (let i = 0; i < data.expenses.length; i += 1) {
+      dispatch(addExpense({
+        id: data.expenses[i].id,
+        date: data.expenses[i].date,
+        item: data.expenses[i].item,
+        cost: data.expenses[i].cost,
+      }));
+    }
   };
 
   return (
