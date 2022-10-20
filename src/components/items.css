@@ -95,6 +95,10 @@
     margin-top: 2rem;
 }
 
+.total-component{
+    display: none;
+}
+
 @media (max-width:520px) {
     .new-items {
         height: fit-content;

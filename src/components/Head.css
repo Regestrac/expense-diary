@@ -1,5 +1,5 @@
 .head {
-    height: 4rem;
+    min-height: 4rem;
     width: 100%;
     display: flex;
     align-items: center;
@@ -10,17 +10,64 @@
     top: 0;
 }
 
-.head h3 {
-    margin: 0 3rem 0 2rem;
+.title-h3 {
+    margin: 0 2rem;
     display: flex;
     align-items: center;
+    width: fit-content;
 }
 
 .total {
     border: 2px solid white;
     border-radius: 10px;
     margin-left: .5rem;
-    height: 2.2rem;
+    min-height: 2.2rem;
     width: fit-content;
+    height: fit-content;
     min-width: 4.5rem;
+    word-wrap: break-word;
+}
+.total-h3{
+    display: flex;
+    align-items: center;
+    max-width: 50%;
+    margin-right: 1rem;
+}
+
+@media (min-width:350px) and (max-width:580px){
+    .total-h3{
+        width: fit-content;
+        max-width: 50%;
+        margin-right: 1rem;
+        word-wrap: break-word;
+    }
+    .total{
+        max-width: 45vw;
+        height: fit-content;
+        word-wrap: break-word;
+    }
+}
+
+@media (max-width:350px){
+    .head{
+        display: inline-flex;
+        width: 100%;
+        justify-content: left;
+    }
+    .title-h3{
+        max-width: 40%;
+        margin-right:1rem;
+    }
+    .total-h3{
+        flex-direction: column;
+        width: fit-content;
+        max-width: 50%;
+        margin-right: 1rem;
+        word-wrap: break-word;
+    }
+    .total{
+        max-width: 45vw;
+        height: fit-content;
+        word-wrap: break-word;
+    }
 }

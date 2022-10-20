@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Controller, useFieldArray, useForm, useWatch,
 } from 'react-hook-form';
@@ -22,14 +22,8 @@ const schema = yup.object().shape({
 
 function Items() {
   const [total, setTotal] = useState(0);
-  //   type FormValues = {
-  //     expenses: {
-  //       date: Date | string;
-  //       item: string;
-  //       cost: number;
-  //       id: string;
-  //     }[]
-  //   };
+  const [value, setValue] = useState([{ cost: 0 }]);
+  const [delBtn, setDelBtn] = useState(false);
 
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(schema),
@@ -42,7 +36,20 @@ function Items() {
     control,
     name: 'expenses',
   });
-
+  useMemo(() => {
+    if (fields.length < 1) {
+      append({
+        date: new Date(),
+        item: '',
+        cost: 0,
+        id: nanoid(),
+      });
+    } else if (fields.length < 2) {
+      setDelBtn(false);
+    } else {
+      setDelBtn(true);
+    }
+  }, [fields]);
   const appendItems = () => {
     append({
       date: new Date(),
@@ -52,20 +59,19 @@ function Items() {
     });
   };
 
-  const addCostBox = () => {
-  };
-
   const Total = () => {
     const formValues = useWatch({
       name: 'expenses',
       control,
     });
-    const total = formValues.reduce(
-      (acc:any, current:any) => (parseInt(acc, 10) + parseInt(current.cost, 10)),
+    setValue(formValues || 0);
+    console.log('formValues: ', formValues);
+    const totalCost = formValues?.reduce(
+      (acc:any, current:any) => (parseInt(acc || 0, 10) + parseInt(current.cost || 0, 10)),
       0,
     );
-    setTotal(total);
-    return total;
+    setTotal(totalCost);
+    return totalCost;
   };
 
   const onSubmit = (data: any) => {
@@ -104,16 +110,28 @@ function Items() {
                       &#8377;
                       {' '}
                       <Controller control={control} name={`expenses[${index}].cost`} render={({ field }) => <Input type="number" placeholder="00" {...field} />} />
-                      <Button onClick={addCostBox} color="success"><i className="fa-solid fa-plus" /></Button>
+                      <Button
+                        onClick={() => {
+                          append({
+                            cost: 0,
+                          });
+                        }}
+                        color="success"
+                      >
+                        <i className="fa-solid fa-plus" />
+
+                      </Button>
                     </div>
                   </div>
                   <div className="item5">
                     <h5>
                       &#8377;
-                      {<Total /> || 0}
+                      {value?.[index]?.cost?.toString() || 0}
                     </h5>
                   </div>
-                  <div className="item6"><Button onClick={() => remove(index)} color="danger"><i className="fa-regular fa-trash-can" /></Button></div>
+                  <div className="item6">
+                    {delBtn && <Button onClick={() => remove(index)} color="danger"><i className="fa-regular fa-trash-can" /></Button>}
+                  </div>
                 </div>
               ))}
               <Button color="success" className="sub-btn">
@@ -127,6 +145,9 @@ function Items() {
           <i className="fa-solid fa-plus" />
           New Item
         </Button>
+      </div>
+      <div className="total-component">
+        <Total />
       </div>
     </div>
   );
