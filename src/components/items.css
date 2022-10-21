@@ -9,7 +9,7 @@
 }
 
 .item-body {
-    height: 5rem;
+    min-height: 5rem;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -29,6 +29,7 @@
 
 .new-items {
     min-height: 5rem;
+    height: fit-content;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -41,18 +42,6 @@
     border-radius: 1rem;
     background-color: #b0e2ff;
     overflow: hidden;
-}
-
-.add-item-outer{
-    display: flex;
-    flex-direction: column;
-}
-
-.add-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    gap: .3rem;
 }
 
 .item1 {

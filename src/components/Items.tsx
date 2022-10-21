@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Controller, useFieldArray, useForm, useWatch,
 } from 'react-hook-form';
@@ -13,13 +14,18 @@ import moment from 'moment';
 import Head from './Head';
 import './items.css';
 import ShowExpense from './ShowExpense';
+import CostCtrl from './CostCtrl';
 
 const schema = yup.object().shape({
   expenses: yup.array().of(
     yup.object().shape({
       date: yup.date().optional(),
       item: yup.string().required('Item required!'),
-      cost: yup.number().typeError('Please Enter numbere only!'),
+      costs: yup.array().of(
+        yup.object().shape({
+          cost: yup.number().typeError('Please Enter numbere only!'),
+        }),
+      ),
     }),
   ),
 });
@@ -34,8 +40,7 @@ function Items() {
   //   }
   // };
 
-  const [total, setTotal] = useState(0);
-  const [value, setValue] = useState([{ cost: 0 }]);
+  // const [value, setValue] = useState(0);
   const [delBtn, setDelBtn] = useState(false);
   const dispatch = useDispatch();
 
@@ -52,12 +57,33 @@ function Items() {
     control,
     name: 'expenses',
   });
+
+  const formValues = useWatch({
+    name: 'expenses',
+    control,
+  });
+  console.log('formValues: ', formValues);
+
+  const totalCostValue = (idx:number) => {
+    let totalCost = 0;
+    formValues?.[idx]?.costs?.map((cost:any) => {
+      const Cost = cost.cost;
+      totalCost += parseInt(Cost || 0, 10);
+      return totalCost;
+    });
+    return totalCost;
+  };
+
+  // useEffect(() => {
+  //   setValue(formValues || 0);
+  // }, [formValues]);
+
   useMemo(() => {
     if (fields.length < 1) {
       append({
         date: moment().format('L').toString(),
         item: '',
-        cost: 0,
+        costs: [{ cost: 0 }],
         id: nanoid(),
       });
     } else if (fields.length < 2) {
@@ -66,30 +92,27 @@ function Items() {
       setDelBtn(true);
     }
   }, [fields]);
+
   const appendItems = () => {
     append({
       date: moment().format('L').toString(),
       item: '',
-      cost: 0,
+      costs: [{ cost: 0 }],
       id: nanoid(),
     });
   };
 
-  const Total = () => {
-    const formValues = useWatch({
-      name: 'expenses',
-      control,
-    });
-    setValue(formValues || 0);
+  const total = () => {
     const totalCost = formValues?.reduce(
-      (acc: any, current: any) => (parseInt(acc || 0, 10) + parseInt(current.cost || 0, 10)),
+      (acc: any, current: any) => (parseInt(acc || 0, 10)
+      + parseInt(current.costs[0].cost || 0, 10)),
       0,
     );
-    setTotal(totalCost);
     return totalCost;
   };
 
   const onSubmit = (data: any) => {
+    console.log('data: ', data);
     for (let i = 0; i < data.expenses.length; i += 1) {
       dispatch(addExpense({
         id: data.expenses[i].id,
@@ -104,7 +127,7 @@ function Items() {
 
   return (
     <div>
-      <Head total={total} />
+      <Head total={total()} />
       <div>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="item-list">
@@ -130,15 +153,8 @@ function Items() {
                       <Controller control={control} name={`expenses[${index}].item`} render={({ field }) => <Input type="text" placeholder="Add Item..." {...field} />} />
                       <small className="warn">{ errors?.expenses?.[index]?.item?.message }</small>
                     </div>
-                    <div className="add-item-outer item4">
-                      <div className="add-item">
-                        &#8377;
-                        {' '}
-                        <Controller control={control} name={`expenses[${index}].cost`} render={({ field }) => <Input type="number" placeholder="00" {...field} />} />
-                        <Button color="success">
-                          <i className="fa-solid fa-plus" />
-                        </Button>
-                      </div>
+                    <div className="item4">
+                      <CostCtrl index={index} control={control} ids={item.id} />
                       <div>
                         <small className="warn">{ errors?.expenses?.[index]?.cost?.message }</small>
                       </div>
@@ -147,7 +163,7 @@ function Items() {
                   <div className="item5">
                     <h5>
                       &#8377;
-                      {value?.[index]?.cost?.toString() || 0}
+                      {totalCostValue(index)}
                     </h5>
                   </div>
                   <div className="item6">
@@ -166,9 +182,6 @@ function Items() {
           <i className="fa-solid fa-plus" />
           New Item
         </Button>
-      </div>
-      <div className="total-component">
-        <Total />
       </div>
       <ShowExpense />
     </div>

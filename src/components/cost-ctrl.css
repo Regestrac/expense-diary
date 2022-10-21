@@ -1,0 +1,18 @@
+.add-item {
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+}
+
+.cost-input{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.inp-ctrl{
+    width: 5rem;
+    display: flex;
+    flex-wrap: wrap;
+}
