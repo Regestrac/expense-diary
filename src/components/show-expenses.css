@@ -66,3 +66,18 @@
     font-size: .8rem;
     padding: 0;
 }
+
+.each-cost{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin: 0 .5rem;
+}
+
+.each-cost p{
+    padding: .3rem;
+    border: 1px solid black;
+    border-radius: .4rem;
+    margin: 0 .3rem .3rem 0;
+}

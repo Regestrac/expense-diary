@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   Controller, useFieldArray, useForm, useWatch,
@@ -41,12 +40,13 @@ function Items() {
   //   }
   // };
 
-  const [value, setValue] = useState([{ cost: 0 }]);
+  // const [value, setValue] = useState([{ cost: 0 }]);
+  const [totalCostsCost, setTotalCostsCost] = useState(0);
   const [delBtn, setDelBtn] = useState(false);
   const dispatch = useDispatch();
 
   const {
-    control, handleSubmit, reset, formState: { errors },
+    control, handleSubmit, formState: { errors },
   }: { control: any; handleSubmit: any; reset: any; formState: { errors: any } } = useForm({
     resolver: yupResolver(schema),
     mode: 'onChange',
@@ -64,26 +64,16 @@ function Items() {
     control,
   });
 
-  useEffect(() => {
-    setValue(formValues || 0);
-  }, [formValues]);
-
-  // const totalCostValue = (idx:number) => {
-  //   let totalCost = 0;
-  //   formValues?.[idx]?.costs?.map((cost:any) => {
-  //     const Cost = cost.cost;
-  //     totalCost += parseInt(Cost || 0, 10);
-  //     return totalCost;
-  //   });
-  //   return totalCost;
-  // };
+  // useEffect(() => {
+  //   setValue(formValues || 0);
+  // }, [formValues]);
 
   useMemo(() => {
     if (fields.length < 1) {
       append({
         date: moment().format('L').toString(),
         item: '',
-        // costs: [{ cost: 0 }],
+        costs: [{ cost: 0 }],
         cost: 0,
         id: nanoid(),
       });
@@ -98,20 +88,43 @@ function Items() {
     append({
       date: moment().format('L').toString(),
       item: '',
-      // costs: [{ cost: 0 }],
+      costs: [{ cost: 0 }],
       cost: 0,
       id: nanoid(),
     });
   };
 
-  const total = () => {
-    const totalCost = formValues?.reduce(
-      (acc: any, current: any) => (parseInt(acc || 0, 10)
-        + parseInt(current.cost || 0, 10)),
-      0,
-    );
+  const totalCostValue = (idx:number) => {
+    let totalCost = 0;
+    formValues?.[idx]?.costs?.map((cost:any) => {
+      const Cost = cost.cost;
+      totalCost += parseInt(Cost || 0, 10);
+      return totalCost;
+    });
     return totalCost;
   };
+
+  // const total = () => {
+  //   const totalCost = formValues?.reduce(
+  //     (acc: any, current: any) => (parseInt(acc || 0, 10)
+  //       + parseInt(current.costs[0].cost || 0, 10)),
+  //     0,
+  //   );
+  //   return totalCost;
+  // };
+
+  let totalCost = 0;
+  formValues?.map((values:any) => {
+    values.costs.map((cost:{ cost:number }) => {
+      totalCost += parseInt(cost.cost.toString(), 10);
+      return totalCost;
+    });
+    return totalCost;
+  });
+
+  useEffect(() => {
+    setTotalCostsCost(totalCost);
+  }, [formValues]);
 
   const onSubmit = (data: any) => {
     for (let i = 0; i < data.expenses.length; i += 1) {
@@ -120,9 +133,9 @@ function Items() {
         date: moment(data.expenses[i].date).format('L').toString(),
         item: data.expenses[i].item,
         cost: data.expenses[i].cost,
+        costs: data.expenses[i].costs,
       }));
     }
-    reset();
     remove();
   };
 
@@ -155,16 +168,17 @@ function Items() {
                       <small className="warn">{errors?.expenses?.[index]?.item?.message}</small>
                     </div>
                     <div className="item4">
-                      {/* <CostCtrl index={index} control={control} ids={items.id} /> */}
-                      <div className="add-item">
+                      <CostCtrl index={index} control={control} Controller={Controller} />
+                      {/* <div className="add-item">
                         &#8377;
                         {' '}
                         <div className="cost-input">
                           <div className="inp-ctrl">
-                            <Controller control={control} name={`expenses[${index}].cost`} render={({ field }) => <Input type="number" placeholder="00" {...field} />} />
+                            <Controller control={control} name={`expenses[${index}].cost`}
+                      render={({ field }) => <Input type="number" placeholder="00" {...field} />} />
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                       <div>
                         <small className="warn">{errors?.expenses?.[index]?.cost?.message}</small>
                       </div>
@@ -173,8 +187,8 @@ function Items() {
                   <div className="item5">
                     <h5>
                       &#8377;
-                      {value?.[index]?.cost || 0}
-                      {/* {totalCostValue(index)} */}
+                      {/* {value?.[index]?.cost || 0} */}
+                      {totalCostValue(index)}
                     </h5>
                   </div>
                   <div className="item6">
@@ -188,7 +202,8 @@ function Items() {
                 {' '}
                 &#8377;
                 {' '}
-                {total()}
+                {/* {total() || 0} */}
+                {totalCostsCost}
               </div>
               <Button color="success" className="sub-btn">
                 <Input className="sub-inp" type="submit" />

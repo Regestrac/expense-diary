@@ -18,6 +18,7 @@ type Payload = {
     date: string;
     item: string;
     cost: number;
+    costs: [{ cost:number }]
   }
 };
 
@@ -27,6 +28,7 @@ const initialState = {
     date: moment().format('L'),
     item: '',
     cost: 0,
+    costs: [{ cost: 0 }],
   }],
 };
 
@@ -82,12 +84,20 @@ const ExpenseSlice = createSlice({
           cost: action.payload.newCost,
         }
           : states));
-      // if (localStorage.getItem('Expenses') !== null) {
-      //   const expArr:any = localStorage.getItem('Expenses');
-      //   const parsedArr = JSON.parse(expArr);
-      //   const newArray = [...parsedArr, state.expenseData];
-      //   localStorage.setItem('Expenses', JSON.stringify(newArray));
-      // }
+      if (localStorage.getItem('Expenses') !== null) {
+        const expArr: any = localStorage.getItem('Expenses');
+        const parsedArr = JSON.parse(expArr);
+        const newArray = parsedArr.map((arrItem: State) => (
+          arrItem.id === action.payload.changeId ? {
+            ...arrItem,
+            date: action.payload.newDate,
+            item: action.payload.newItem,
+            cost: action.payload.newCost,
+          }
+            : arrItem
+        ));
+        localStorage.setItem('Expenses', JSON.stringify(newArray));
+      }
     },
   },
 });

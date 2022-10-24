@@ -8,16 +8,22 @@ function Head() {
     item: string;
     date: Date | string;
     cost: number;
-    id: string
+    id: string;
+    costs: [{ cost: number; }];
   }[] = useSelector(allExpenses);
 
-  const total = () => {
-    let totalCost = 0;
-    expenses.map((data) => {
-      totalCost += parseInt(data.cost.toString(), 10);
-      return totalCost;
+  const totalExpense = () => {
+    let newTotalCost = 0;
+    expenses?.map((expense) => {
+      let totalCost = 0;
+      expense?.costs?.map((cost:{ cost:any }) => {
+        totalCost += parseInt(cost.cost, 10);
+        return totalCost;
+      });
+      newTotalCost += totalCost;
+      return newTotalCost;
     });
-    return totalCost;
+    return newTotalCost;
   };
 
   return (
@@ -27,7 +33,7 @@ function Head() {
         Total:
         <div className="total">
           &#8377;
-          {total() || 0}
+          {totalExpense() || 0}
         </div>
       </h3>
     </div>
