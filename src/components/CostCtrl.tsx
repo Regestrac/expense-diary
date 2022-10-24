@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useFieldArray } from 'react-hook-form';
 import { Button, Input } from 'reactstrap';
 import './cost-ctrl.css';
 
-function CostCtrl({ index, control, ids }:{ index:number;control:any;ids:string }) {
-  const { fields, append } = useFieldArray({
+function CostCtrl({ index, control, ids }:{ index:number;control:any;ids:string; }) {
+  const [showBtn, setShowBtn] = useState(true);
+  const [showDelBtn, setShowDelBtn] = useState(false);
+  const { fields, append, remove } = useFieldArray({
     name: 'expenses.costs',
     control,
   });
@@ -13,18 +15,29 @@ function CostCtrl({ index, control, ids }:{ index:number;control:any;ids:string 
       cost: 0,
     });
   }
-  console.log('fields: ', fields);
+  useEffect(() => {
+    if (fields.length > 4) {
+      setShowBtn(false);
+    } else {
+      setShowBtn(true);
+    }
+    if (fields.length > 1) {
+      setShowDelBtn(true);
+    } else {
+      setShowDelBtn(false);
+    }
+  }, [fields]);
 
-  const appendCtrl = (btnId:string) => {
-    console.log('btnId: ', btnId);
-    fields.map(() => {
-      if (btnId) {
-        append({
-          cost: 0,
-        });
-      }
-      return '';
-    });
+  const appendCtrl = () => {
+    if (ids) {
+      append({
+        cost: 0,
+      });
+    }
+  };
+
+  const removeCtrl = (idx:number) => {
+    remove(idx);
   };
   return (
     <div className="add-item">
@@ -34,12 +47,16 @@ function CostCtrl({ index, control, ids }:{ index:number;control:any;ids:string 
         {fields.map((fieldItem, idx) => (
           <div key={fieldItem.id} className="inp-ctrl">
             <Controller control={control} name={`expenses[${index}].costs[${idx}].cost`} render={({ field }) => <Input type="number" placeholder="00" {...field} />} />
+            {showDelBtn
+        && <Button color="danger" onClick={() => removeCtrl(idx)}><i className="fa-solid fa-minus" /></Button>}
           </div>
         ))}
       </div>
-      <Button onClick={() => appendCtrl(ids)} color="success">
+      {showBtn && (
+      <Button onClick={appendCtrl} color="success">
         <i className="fa-solid fa-plus" />
       </Button>
+      )}
     </div>
   );
 }

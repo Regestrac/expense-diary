@@ -8,7 +8,7 @@ const Head = ({ total }:{ total:number }) => (
       Total:
       <div className="total">
         &#8377;
-        {total}
+        {total || 0}
       </div>
     </h3>
   </div>

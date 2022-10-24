@@ -12,7 +12,6 @@
 }
 
 .inp-ctrl{
-    width: 5rem;
     display: flex;
-    flex-wrap: wrap;
+    margin: 2px;
 }

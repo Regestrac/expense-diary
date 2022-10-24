@@ -7,12 +7,14 @@ import { Button } from 'reactstrap';
 
 function ShowExpense() {
   const dispatch = useDispatch();
+
   const expenses:{
     item:string;
     date:Date | string;
     cost:number;
     id:string
   }[] = useSelector(allExpenses);
+
   return (
     <div className="expenses">
       {expenses.map((expense) => {
