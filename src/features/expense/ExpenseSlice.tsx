@@ -2,21 +2,22 @@ import { createSlice } from '@reduxjs/toolkit';
 import moment from 'moment';
 
 type State = {
-  id:string;
-  expenses:{ expenseData:[{
-    id:string;
-    date:Date | string;
-    item:string;
-    cost:number;
-  }]
+  id: string;
+  expenses: {
+    expenseData: [{
+      id: string;
+      date: Date | string;
+      item: string;
+      cost: number;
+    }]
   }
 };
 type Payload = {
-  payload:{
-    id:string;
-    date:string;
-    item:string;
-    cost:number;
+  payload: {
+    id: string;
+    date: string;
+    item: string;
+    cost: number;
   }
 };
 
@@ -32,7 +33,7 @@ const initialState = {
 const parsedData = () => {
   let ParsedExpArray;
   if (localStorage.getItem('Expenses') !== null) {
-    const expArray:any = localStorage.getItem('Expenses');
+    const expArray: any = localStorage.getItem('Expenses');
     ParsedExpArray = JSON.parse(expArray);
   }
   return ParsedExpArray;
@@ -42,10 +43,10 @@ const ExpenseSlice = createSlice({
   name: 'expenses',
   initialState,
   reducers: {
-    addExpense(state, action:Payload) {
+    addExpense(state, action: Payload) {
       state.expenseData.push(action.payload);
       if (localStorage.getItem('Expenses') !== null) {
-        const expArr:any = localStorage.getItem('Expenses');
+        const expArr: any = localStorage.getItem('Expenses');
         const parsedArr = JSON.parse(expArr);
         const newArray = [...parsedArr, action.payload];
         localStorage.setItem('Expenses', JSON.stringify(newArray));
@@ -54,24 +55,26 @@ const ExpenseSlice = createSlice({
         localStorage.setItem('Expenses', jsonObject);
       }
     },
-    deleteExpense(state, action:{ payload:{ delId:string } }) {
+    deleteExpense(state, action: { payload: { delId: string } }) {
       state.expenseData = state.expenseData.filter(
         (states) => states.id !== action.payload.delId,
       );
       if (localStorage.getItem('Expenses') !== null) {
-        const expArr:any = localStorage.getItem('Expenses');
+        const expArr: any = localStorage.getItem('Expenses');
         const parsedArr = JSON.parse(expArr);
-        const newArray = parsedArr.filter((s:{ id:string }) => s.id !== action.payload.delId);
+        const newArray = parsedArr.filter((s: { id: string }) => s.id !== action.payload.delId);
         localStorage.setItem('Expenses', JSON.stringify(newArray));
       }
     },
-    changeExpense(state:any, action:{ payload:{
-      changeId:string;
-      newDate: Date | string;
-      newItem:string;
-      newCost:number;
-    } }) {
-      state.expenseData = state.expenseData.map((states:State) => (
+    changeExpense(state: any, action: {
+      payload: {
+        changeId: string;
+        newDate: Date | string;
+        newItem: string;
+        newCost: number;
+      }
+    }) {
+      state.expenseData = state.expenseData.map((states: State) => (
         states.id === action.payload.changeId ? {
           ...states,
           date: action.payload.newDate,

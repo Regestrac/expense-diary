@@ -114,6 +114,13 @@
     color: red;
 }
 
+.total-expense {
+    width: fit-content;
+    margin: 0 3rem 0 auto;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
 @media (max-width:520px) {
     .new-items {
         height: fit-content;

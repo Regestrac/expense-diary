@@ -47,7 +47,7 @@ function Items() {
 
   const {
     control, handleSubmit, reset, formState: { errors },
-  }:{ control:any;handleSubmit:any; reset:any; formState:{ errors:any } } = useForm({
+  }: { control: any; handleSubmit: any; reset: any; formState: { errors: any } } = useForm({
     resolver: yupResolver(schema),
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -107,7 +107,7 @@ function Items() {
   const total = () => {
     const totalCost = formValues?.reduce(
       (acc: any, current: any) => (parseInt(acc || 0, 10)
-      + parseInt(current.cost || 0, 10)),
+        + parseInt(current.cost || 0, 10)),
       0,
     );
     return totalCost;
@@ -128,7 +128,7 @@ function Items() {
 
   return (
     <div>
-      <Head total={total()} />
+      <Head />
       <div>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="item-list">
@@ -143,7 +143,7 @@ function Items() {
               <div className="item6" />
             </div>
             <div>
-              {fields.map((items, index:number) => (
+              {fields.map((items, index: number) => (
                 <div key={items.id} className="new-items">
                   <div className="item1">{index + 1}</div>
                   <div className="item-body">
@@ -152,7 +152,7 @@ function Items() {
                     </div>
                     <div className="item3">
                       <Controller control={control} name={`expenses[${index}].item`} render={({ field }) => <Input type="text" placeholder="Add Item..." {...field} />} />
-                      <small className="warn">{ errors?.expenses?.[index]?.item?.message }</small>
+                      <small className="warn">{errors?.expenses?.[index]?.item?.message}</small>
                     </div>
                     <div className="item4">
                       {/* <CostCtrl index={index} control={control} ids={items.id} /> */}
@@ -166,7 +166,7 @@ function Items() {
                         </div>
                       </div>
                       <div>
-                        <small className="warn">{ errors?.expenses?.[index]?.cost?.message }</small>
+                        <small className="warn">{errors?.expenses?.[index]?.cost?.message}</small>
                       </div>
                     </div>
                   </div>
@@ -182,6 +182,14 @@ function Items() {
                   </div>
                 </div>
               ))}
+              <hr />
+              <div className="total-expense">
+                Total:
+                {' '}
+                &#8377;
+                {' '}
+                {total()}
+              </div>
               <Button color="success" className="sub-btn">
                 <Input className="sub-inp" type="submit" />
                 Save

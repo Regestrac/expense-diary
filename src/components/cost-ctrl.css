@@ -4,14 +4,14 @@
     gap: .3rem;
 }
 
-.cost-input{
+.cost-input {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
     width: 100%;
 }
 
-.inp-ctrl{
+.inp-ctrl {
     display: flex;
     margin: 2px;
 }

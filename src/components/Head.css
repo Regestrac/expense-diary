@@ -28,45 +28,50 @@
     min-width: 4.5rem;
     word-wrap: break-word;
 }
-.total-h3{
+
+.total-h3 {
     display: flex;
     align-items: center;
     max-width: 50%;
     margin-right: 1rem;
 }
 
-@media (min-width:350px) and (max-width:580px){
-    .total-h3{
+@media (min-width:350px) and (max-width:580px) {
+    .total-h3 {
         width: fit-content;
         max-width: 50%;
         margin-right: 1rem;
         word-wrap: break-word;
     }
-    .total{
+
+    .total {
         max-width: 45vw;
         height: fit-content;
         word-wrap: break-word;
     }
 }
 
-@media (max-width:350px){
-    .head{
+@media (max-width:350px) {
+    .head {
         display: inline-flex;
         width: 100%;
         justify-content: left;
     }
-    .title-h3{
+
+    .title-h3 {
         max-width: 40%;
-        margin-right:1rem;
+        margin-right: 1rem;
     }
-    .total-h3{
+
+    .total-h3 {
         flex-direction: column;
         width: fit-content;
         max-width: 50%;
         margin-right: 1rem;
         word-wrap: break-word;
     }
-    .total{
+
+    .total {
         max-width: 45vw;
         height: fit-content;
         word-wrap: break-word;
