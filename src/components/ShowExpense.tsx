@@ -14,12 +14,12 @@ function ShowExpense() {
     date: Date | string;
     cost: number;
     id: string;
-    costs:[{ cost:number }]
+    costs: [{ cost: number }]
   }[] = useSelector(allExpenses);
 
-  const totalExpense = (expense:any) => {
+  const totalExpense = (expense: any) => {
     let totalCost = 0;
-    expense?.costs?.map((cost:{ cost:string }) => {
+    expense?.costs?.map((cost: { cost: string }) => {
       totalCost += parseInt(cost.cost, 10);
       return totalCost;
     });
@@ -41,7 +41,7 @@ function ShowExpense() {
               </div>
               <div className="exp-cost">
                 <div className="each-cost">
-                  {expense?.costs?.map((cost:{ cost:number }) => (
+                  {expense?.costs?.map((cost: { cost: number }) => (
                     <p key={nanoid()}>
                       &#8377;
                       {cost.cost}
@@ -57,7 +57,9 @@ function ShowExpense() {
                     {totalExpense(expense)}
                   </h3>
                 </div>
-                <Button className="del-exp" color="danger" onClick={() => { dispatch(deleteExpense({ delId: expense?.id })); }}><i className="fa-regular fa-trash-can" /></Button>
+                <Button className="del-exp" color="danger" onClick={() => { dispatch(deleteExpense({ delId: expense?.id })); }}>
+                  <i className="fa-regular fa-trash-can" />
+                </Button>
               </div>
             </div>
           );

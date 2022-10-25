@@ -52,7 +52,7 @@
     margin-right: .5rem;
 }
 
-.bottom-row{
+.bottom-row {
     width: 100%;
     padding: .1rem .4rem;
     display: flex;
@@ -61,14 +61,15 @@
     height: fit-content;
 }
 
-.bottom-total{
+.bottom-total {
     height: 100%;
     width: 14.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.bottom-total h3{
+
+.bottom-total h3 {
     max-width: 11rem;
     word-wrap: break-word;
 }
@@ -92,7 +93,7 @@
     padding: 0;
 }
 
-.each-cost{
+.each-cost {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -100,7 +101,7 @@
     margin: .3rem .5rem;
 }
 
-.each-cost p{
+.each-cost p {
     padding: 0 .3rem;
     font-size: 1.3rem;
     font-weight: 500;

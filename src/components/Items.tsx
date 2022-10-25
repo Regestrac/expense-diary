@@ -9,7 +9,6 @@ import { nanoid } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { addExpense } from 'features/expense/ExpenseSlice';
 import moment from 'moment';
-
 import Head from './Head';
 import './items.css';
 import ShowExpense from './ShowExpense';
@@ -20,7 +19,6 @@ const schema = yup.object().shape({
     yup.object().shape({
       date: yup.date().optional(),
       item: yup.string().required('Item is required'),
-      cost: yup.number().optional().typeError('Enter valid a number'),
       costs: yup.array().of(
         yup.object().shape({
           cost: yup.number().required('Required').typeError('Enter a valid number or delete the field!').min(1, 'Expense should be minimum 1!'),
@@ -31,23 +29,12 @@ const schema = yup.object().shape({
 });
 
 function Items() {
-  // type FormValues = {
-  //   expenses:{
-  //     id:string;
-  //     date: string | Date;
-  //     item: string;
-  //     costs:[{ cost:number }]
-  //     cost:number
-  //   }
-  // };
-
-  // const [value, setValue] = useState([{ cost: 0 }]);
-  const [totalCostsCost, setTotalCostsCost] = useState(0);
-  const [delBtn, setDelBtn] = useState(false);
   const dispatch = useDispatch();
+  const [delBtn, setDelBtn] = useState(false);
+  const [totalCostsCost, setTotalCostsCost] = useState(0);
 
-  const { control, handleSubmit, formState: { errors } } : {
-    control:any, handleSubmit:any, reset:any, formState: { errors:any, },
+  const { control, handleSubmit, formState: { errors } }: {
+    control: any, handleSubmit: any, reset: any, formState: { errors: any, },
   } = useForm({
     resolver: yupResolver(schema),
     mode: 'onChange',
@@ -65,17 +52,12 @@ function Items() {
     control,
   });
 
-  // useEffect(() => {
-  //   setValue(formValues || 0);
-  // }, [formValues]);
-
   useMemo(() => {
     if (fields.length < 1) {
       append({
         date: moment().format('yyyy-MM-DD').toString(),
         item: '',
         costs: [{ cost: '' }],
-        cost: 0,
         id: nanoid(),
       });
     } else if (fields.length < 2) {
@@ -90,14 +72,13 @@ function Items() {
       date: moment().format('yyyy-MM-DD').toString(),
       item: '',
       costs: [{ cost: '' }],
-      cost: 0,
       id: nanoid(),
     });
   };
 
-  const totalCostValue = (idx:number) => {
+  const totalCostValue = (idx: number) => {
     let totalCost = 0;
-    formValues?.[idx]?.costs?.map((cost:{ cost:string }) => {
+    formValues?.[idx]?.costs?.map((cost: { cost: string }) => {
       const Cost = cost?.cost?.toString();
       totalCost += parseInt(Cost, 10) || 0;
       return totalCost;
@@ -105,18 +86,9 @@ function Items() {
     return totalCost;
   };
 
-  // const total = () => {
-  //   const totalCost = formValues?.reduce(
-  //     (acc: any, current: any) => (parseInt(acc || 0, 10)
-  //       + parseInt(current.costs[0].cost || 0, 10)),
-  //     0,
-  //   );
-  //   return totalCost;
-  // };
-
   let totalCost = 0;
-  formValues?.map((values:{ costs:[{ cost:number }] }) => {
-    values?.costs.map((cost:{ cost:number }) => {
+  formValues?.map((values: { costs: [{ cost: number }] }) => {
+    values?.costs.map((cost: { cost: number }) => {
       totalCost += parseInt(cost?.cost?.toString(), 10) || 0;
       return totalCost;
     });
@@ -127,13 +99,12 @@ function Items() {
     setTotalCostsCost(totalCost);
   }, [formValues]);
 
-  const onSubmit = (data:any) => {
+  const onSubmit = (data: any) => {
     for (let i = 0; i < data.expenses.length; i += 1) {
       dispatch(addExpense({
         id: data.expenses[i].id,
         date: moment(data.expenses[i].date).format('yyyy-MM-DD').toString(),
         item: data.expenses[i].item,
-        cost: data.expenses[i].cost,
         costs: data.expenses[i].costs,
       }));
     }
@@ -172,25 +143,13 @@ function Items() {
                       <CostCtrl
                         index={index}
                         control={control}
-                        Controller={Controller}
                         error={errors?.expenses?.[index]?.costs}
                       />
-                      {/* <div className="add-item">
-                        &#8377;
-                        {' '}
-                        <div className="cost-input">
-                          <div className="inp-ctrl">
-                            <Controller control={control} name={`expenses[${index}].cost`}
-                      render={({ field }) => <Input type="number" placeholder="00" {...field} />} />
-                          </div>
-                        </div>
-                      </div> */}
                     </div>
                   </div>
                   <div className="item5">
                     <h5>
                       &#8377;
-                      {/* {value?.[index]?.cost || 0} */}
                       {totalCostValue(index)}
                     </h5>
                   </div>
@@ -205,7 +164,6 @@ function Items() {
                 {' '}
                 &#8377;
                 {' '}
-                {/* {total() || 0} */}
                 {totalCostsCost || 0}
               </div>
               <Button color="success" className="sub-btn">

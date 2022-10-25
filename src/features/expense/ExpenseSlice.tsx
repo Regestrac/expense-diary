@@ -8,17 +8,16 @@ type State = {
       id: string;
       date: Date | string;
       item: string;
-      cost: number;
-      costs: [{ cost:number | string }]
+      costs: [{ cost: number | string }]
     }]
   }
 };
+
 type Payload = {
   payload: {
     id: string;
     date: string;
     item: string;
-    cost: number;
     costs: [{ cost: string }]
   }
 };
@@ -28,7 +27,6 @@ const initialState = {
     id: '',
     date: moment().format('DD/MM/yyyy'),
     item: '',
-    cost: 0,
     costs: [{ cost: '' }],
   }],
 };
@@ -36,7 +34,7 @@ const initialState = {
 const parsedData = () => {
   let ParsedExpArray;
   if (localStorage.getItem('Expenses') !== null) {
-    const expArray: any = localStorage.getItem('Expenses');
+    const expArray = localStorage.getItem('Expenses') || '';
     ParsedExpArray = JSON.parse(expArray);
   }
   return ParsedExpArray;
@@ -49,7 +47,7 @@ const ExpenseSlice = createSlice({
     addExpense(state, action: Payload) {
       state.expenseData.push(action.payload);
       if (localStorage.getItem('Expenses') !== null) {
-        const expArr: any = localStorage.getItem('Expenses');
+        const expArr = localStorage.getItem('Expenses') || '';
         const parsedArr = JSON.parse(expArr);
         const newArray = [...parsedArr, action.payload];
         localStorage.setItem('Expenses', JSON.stringify(newArray));
@@ -63,7 +61,7 @@ const ExpenseSlice = createSlice({
         (states) => states.id !== action.payload.delId,
       );
       if (localStorage.getItem('Expenses') !== null) {
-        const expArr: any = localStorage.getItem('Expenses');
+        const expArr = localStorage.getItem('Expenses') || '';
         const parsedArr = JSON.parse(expArr);
         const newArray = parsedArr.filter((s: { id: string }) => s.id !== action.payload.delId);
         localStorage.setItem('Expenses', JSON.stringify(newArray));
@@ -74,7 +72,7 @@ const ExpenseSlice = createSlice({
         changeId: string;
         newDate: Date | string;
         newItem: string;
-        newCost: number;
+        newCosts: [{ cost: number; }];
       }
     }) {
       state.expenseData = state.expenseData.map((states: State) => (
@@ -82,18 +80,18 @@ const ExpenseSlice = createSlice({
           ...states,
           date: action.payload.newDate,
           item: action.payload.newItem,
-          cost: action.payload.newCost,
+          costs: action.payload.newCosts,
         }
           : states));
       if (localStorage.getItem('Expenses') !== null) {
-        const expArr: any = localStorage.getItem('Expenses');
+        const expArr = localStorage.getItem('Expenses') || '';
         const parsedArr = JSON.parse(expArr);
         const newArray = parsedArr.map((arrItem: State) => (
           arrItem.id === action.payload.changeId ? {
             ...arrItem,
             date: action.payload.newDate,
             item: action.payload.newItem,
-            cost: action.payload.newCost,
+            costs: action.payload.newCosts,
           }
             : arrItem
         ));
