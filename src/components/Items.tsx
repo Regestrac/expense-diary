@@ -166,6 +166,11 @@ function Items() {
                 {' '}
                 {totalCostsCost || 0}
               </div>
+              <Button className="new-btn" onClick={appendItems} color="primary">
+                <i className="fa-solid fa-plus" />
+                {' '}
+                New Item
+              </Button>
               <Button color="success" className="sub-btn">
                 <Input className="sub-inp" type="submit" />
                 Save
@@ -173,11 +178,6 @@ function Items() {
             </div>
           </div>
         </Form>
-        <Button className="new-btn" onClick={appendItems} color="primary">
-          <i className="fa-solid fa-plus" />
-          {' '}
-          New Item
-        </Button>
       </div>
       <ShowExpense />
     </div>
