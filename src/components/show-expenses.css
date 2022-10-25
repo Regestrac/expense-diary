@@ -5,11 +5,12 @@
     justify-content: center;
     margin-top: 3rem;
     flex-wrap: wrap;
+    padding-right: 2rem;
 }
 
 .exp-box {
-    width: 15rem;
-    min-height: 10rem;
+    width: 17rem;
+    min-height: 12rem;
     background-color: #fff;
     box-shadow: 2px 2px 1.2rem #000000;
     border-radius: 1rem;
@@ -17,8 +18,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    margin: 0 0 1rem 1rem;
+    margin: 0 0 2rem 2rem;
     position: relative;
+    border-top: 4px solid dodgerblue;
+    border-bottom: 4px solid deepskyblue;
+    border-left: 4px solid dodgerblue;
+    border-right: 4px solid deepskyblue;
 }
 
 .exp-item {
@@ -47,13 +52,33 @@
     margin-right: .5rem;
 }
 
+.bottom-row{
+    width: 100%;
+    padding: .1rem .4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: fit-content;
+}
+
+.bottom-total{
+    height: 100%;
+    width: 14.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bottom-total h3{
+    max-width: 11rem;
+    word-wrap: break-word;
+}
+
 .exp-cost {
     font-size: 1.5rem;
     font-weight: 700;
 }
 
 .del-exp {
-    position: absolute;
     bottom: .5rem;
     right: .5rem;
     display: flex;
@@ -72,12 +97,18 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    margin: 0 .5rem;
+    margin: .3rem .5rem;
 }
 
 .each-cost p{
-    padding: .3rem;
-    border: 1px solid black;
+    padding: 0 .3rem;
+    font-size: 1.3rem;
+    font-weight: 500;
+    box-shadow: 1px 1px .3rem #00000088;
     border-radius: .4rem;
-    margin: 0 .3rem .3rem 0;
+    margin: 0 .5rem .5rem 0;
+    background-color: #fff;
+    word-wrap: break-word;
+    width: fit-content;
+    max-width: 15rem;
 }

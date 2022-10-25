@@ -3,7 +3,10 @@ import { useFieldArray } from 'react-hook-form';
 import { Button, Input } from 'reactstrap';
 import './cost-ctrl.css';
 
-function CostCtrl({ index, control, Controller }: { index: number; control: any; Controller:any }) {
+function CostCtrl({
+  index, control, Controller, error,
+}: {
+  index: number; control: any; Controller:any; error:[{ cost:{ message:string } }] }) {
   const [showBtn, setShowBtn] = useState(true);
   const [showDelBtn, setShowDelBtn] = useState(false);
   const { fields, append, remove } = useFieldArray({
@@ -12,7 +15,7 @@ function CostCtrl({ index, control, Controller }: { index: number; control: any;
   });
   if (fields.length < 1) {
     append({
-      cost: 0,
+      cost: '',
     });
   }
   useEffect(() => {
@@ -30,7 +33,7 @@ function CostCtrl({ index, control, Controller }: { index: number; control: any;
 
   const appendCtrl = () => {
     append({
-      cost: 0,
+      cost: '',
     });
   };
 
@@ -39,14 +42,17 @@ function CostCtrl({ index, control, Controller }: { index: number; control: any;
   };
   return (
     <div className="add-item">
-      &#8377;
-      {' '}
       <div className="cost-input">
         {fields.map((fieldItem, idx) => (
-          <div key={fieldItem.id} className="inp-ctrl">
-            <Controller control={control} name={`expenses[${index}].costs[${idx}].cost`} render={({ field }:{ field:any }) => <Input type="number" placeholder="00" {...field} />} />
-            {showDelBtn
+          <div key={fieldItem.id}>
+            <div className="inp-ctrl">
+              &#8377;
+              {' '}
+              <Controller control={control} name={`expenses[${index}].costs[${idx}].cost`} render={({ field }:{ field:any }) => <Input type="number" placeholder="00" {...field} />} />
+              {showDelBtn
               && <Button color="danger" onClick={() => removeCtrl(idx)}><i className="fa-solid fa-minus" /></Button>}
+            </div>
+            <small className="warn">{error?.[idx]?.cost?.message}</small>
           </div>
         ))}
       </div>

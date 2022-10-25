@@ -19,11 +19,11 @@ const schema = yup.object().shape({
   expenses: yup.array().of(
     yup.object().shape({
       date: yup.date().optional(),
-      item: yup.string().required('Item required!'),
-      cost: yup.number().typeError('Enter valid a number').optional(),
+      item: yup.string().required('Item is required'),
+      cost: yup.number().optional().typeError('Enter valid a number'),
       costs: yup.array().of(
         yup.object().shape({
-          cost: yup.number().typeError('Please Enter numbere only!'),
+          cost: yup.number().required('Required').typeError('Enter a valid number or delete the field!').min(1, 'Expense should be minimum 1!'),
         }),
       ),
     }),
@@ -34,8 +34,9 @@ function Items() {
   // type FormValues = {
   //   expenses:{
   //     id:string;
-  //     date: Date | string;
+  //     date: string | Date;
   //     item: string;
+  //     costs:[{ cost:number }]
   //     cost:number
   //   }
   // };
@@ -45,9 +46,9 @@ function Items() {
   const [delBtn, setDelBtn] = useState(false);
   const dispatch = useDispatch();
 
-  const {
-    control, handleSubmit, formState: { errors },
-  }: { control: any; handleSubmit: any; reset: any; formState: { errors: any } } = useForm({
+  const { control, handleSubmit, formState: { errors } } : {
+    control:any, handleSubmit:any, reset:any, formState: { errors:any, },
+  } = useForm({
     resolver: yupResolver(schema),
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -71,9 +72,9 @@ function Items() {
   useMemo(() => {
     if (fields.length < 1) {
       append({
-        date: moment().format('L').toString(),
+        date: moment().format('yyyy-MM-DD').toString(),
         item: '',
-        costs: [{ cost: 0 }],
+        costs: [{ cost: '' }],
         cost: 0,
         id: nanoid(),
       });
@@ -86,9 +87,9 @@ function Items() {
 
   const appendItems = () => {
     append({
-      date: moment().format('L').toString(),
+      date: moment().format('yyyy-MM-DD').toString(),
       item: '',
-      costs: [{ cost: 0 }],
+      costs: [{ cost: '' }],
       cost: 0,
       id: nanoid(),
     });
@@ -96,9 +97,9 @@ function Items() {
 
   const totalCostValue = (idx:number) => {
     let totalCost = 0;
-    formValues?.[idx]?.costs?.map((cost:any) => {
-      const Cost = cost.cost;
-      totalCost += parseInt(Cost || 0, 10);
+    formValues?.[idx]?.costs?.map((cost:{ cost:string }) => {
+      const Cost = cost?.cost?.toString();
+      totalCost += parseInt(Cost, 10) || 0;
       return totalCost;
     });
     return totalCost;
@@ -114,9 +115,9 @@ function Items() {
   // };
 
   let totalCost = 0;
-  formValues?.map((values:any) => {
-    values.costs.map((cost:{ cost:number }) => {
-      totalCost += parseInt(cost.cost.toString(), 10);
+  formValues?.map((values:{ costs:[{ cost:number }] }) => {
+    values?.costs.map((cost:{ cost:number }) => {
+      totalCost += parseInt(cost?.cost?.toString(), 10) || 0;
       return totalCost;
     });
     return totalCost;
@@ -126,11 +127,11 @@ function Items() {
     setTotalCostsCost(totalCost);
   }, [formValues]);
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data:any) => {
     for (let i = 0; i < data.expenses.length; i += 1) {
       dispatch(addExpense({
         id: data.expenses[i].id,
-        date: moment(data.expenses[i].date).format('L').toString(),
+        date: moment(data.expenses[i].date).format('yyyy-MM-DD').toString(),
         item: data.expenses[i].item,
         cost: data.expenses[i].cost,
         costs: data.expenses[i].costs,
@@ -156,7 +157,7 @@ function Items() {
               <div className="item6" />
             </div>
             <div>
-              {fields.map((items, index: number) => (
+              {fields.map((items, index) => (
                 <div key={items.id} className="new-items">
                   <div className="item1">{index + 1}</div>
                   <div className="item-body">
@@ -168,7 +169,12 @@ function Items() {
                       <small className="warn">{errors?.expenses?.[index]?.item?.message}</small>
                     </div>
                     <div className="item4">
-                      <CostCtrl index={index} control={control} Controller={Controller} />
+                      <CostCtrl
+                        index={index}
+                        control={control}
+                        Controller={Controller}
+                        error={errors?.expenses?.[index]?.costs}
+                      />
                       {/* <div className="add-item">
                         &#8377;
                         {' '}
@@ -179,9 +185,6 @@ function Items() {
                           </div>
                         </div>
                       </div> */}
-                      <div>
-                        <small className="warn">{errors?.expenses?.[index]?.cost?.message}</small>
-                      </div>
                     </div>
                   </div>
                   <div className="item5">
@@ -192,7 +195,7 @@ function Items() {
                     </h5>
                   </div>
                   <div className="item6">
-                    {delBtn && <Button onClick={() => remove(index)} color="danger"><i className="fa-regular fa-trash-can" /></Button>}
+                    {delBtn && <Button className="del-row" onClick={() => remove(index)} color="danger"><i className="fa-regular fa-trash-can" /></Button>}
                   </div>
                 </div>
               ))}
@@ -203,7 +206,7 @@ function Items() {
                 &#8377;
                 {' '}
                 {/* {total() || 0} */}
-                {totalCostsCost}
+                {totalCostsCost || 0}
               </div>
               <Button color="success" className="sub-btn">
                 <Input className="sub-inp" type="submit" />

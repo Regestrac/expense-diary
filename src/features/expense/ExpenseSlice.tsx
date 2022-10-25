@@ -9,6 +9,7 @@ type State = {
       date: Date | string;
       item: string;
       cost: number;
+      costs: [{ cost:number | string }]
     }]
   }
 };
@@ -18,17 +19,17 @@ type Payload = {
     date: string;
     item: string;
     cost: number;
-    costs: [{ cost:number }]
+    costs: [{ cost: string }]
   }
 };
 
 const initialState = {
   expenseData: [{
     id: '',
-    date: moment().format('L'),
+    date: moment().format('DD/MM/yyyy'),
     item: '',
     cost: 0,
-    costs: [{ cost: 0 }],
+    costs: [{ cost: '' }],
   }],
 };
 

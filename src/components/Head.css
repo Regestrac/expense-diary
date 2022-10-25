@@ -27,6 +27,7 @@
     height: fit-content;
     min-width: 4.5rem;
     word-wrap: break-word;
+    padding: .1rem .5rem;
 }
 
 .total-h3 {
@@ -55,18 +56,17 @@
     .head {
         display: inline-flex;
         width: 100%;
-        justify-content: left;
     }
 
     .title-h3 {
         max-width: 40%;
-        margin-right: 1rem;
+        margin-left: .5rem;
     }
 
     .total-h3 {
         flex-direction: column;
         width: fit-content;
-        max-width: 50%;
+        max-width: 55%;
         margin-right: 1rem;
         word-wrap: break-word;
     }

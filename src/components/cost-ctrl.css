@@ -13,5 +13,7 @@
 
 .inp-ctrl {
     display: flex;
+    align-items: center;
     margin: 2px;
+    gap: .3rem;
 }

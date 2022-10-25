@@ -37,7 +37,7 @@ function ShowExpense() {
                   {expense?.item}
                   :
                 </div>
-                <div className="exp-date">{moment(expense?.date).format('L').toString()}</div>
+                <div className="exp-date">{moment(expense?.date).format('DD-MM-yyyy').toString()}</div>
               </div>
               <div className="exp-cost">
                 <div className="each-cost">
@@ -49,11 +49,16 @@ function ShowExpense() {
                   ))}
                 </div>
                 <hr />
-                &#8377;
-                {' '}
-                {totalExpense(expense)}
               </div>
-              <Button className="del-exp" color="danger" onClick={() => { dispatch(deleteExpense({ delId: expense?.id })); }}><i className="fa-regular fa-trash-can" /></Button>
+              <div className="bottom-row">
+                <div className="bottom-total">
+                  <h3>
+                    &#8377;
+                    {totalExpense(expense)}
+                  </h3>
+                </div>
+                <Button className="del-exp" color="danger" onClick={() => { dispatch(deleteExpense({ delId: expense?.id })); }}><i className="fa-regular fa-trash-can" /></Button>
+              </div>
             </div>
           );
         }
