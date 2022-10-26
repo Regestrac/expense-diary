@@ -10,7 +10,7 @@
 
 .exp-box {
     width: 17rem;
-    min-height: 12rem;
+    min-height: 13rem;
     background-color: #fff;
     box-shadow: 2px 2px 1.2rem #000000;
     border-radius: 1rem;
@@ -98,10 +98,11 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    margin: .3rem .5rem;
+    margin: .3rem .5rem 0;
 }
 
 .each-cost p {
+    min-width: 3rem;
     padding: 0 .3rem;
     font-size: 1.3rem;
     font-weight: 500;
@@ -112,4 +113,8 @@
     word-wrap: break-word;
     width: fit-content;
     max-width: 15rem;
+}
+
+.each-cost hr{
+    margin: 0;
 }

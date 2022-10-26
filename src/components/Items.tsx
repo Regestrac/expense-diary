@@ -55,7 +55,7 @@ function Items() {
   useMemo(() => {
     if (fields.length < 1) {
       append({
-        date: moment().format('yyyy-MM-DD').toString(),
+        date: moment().format('YYYY-MM-DD').toString(),
         item: '',
         costs: [{ cost: '' }],
         id: nanoid(),
@@ -69,7 +69,7 @@ function Items() {
 
   const appendItems = () => {
     append({
-      date: moment().format('yyyy-MM-DD').toString(),
+      date: moment().format('YYYY-MM-DD').toString(),
       item: '',
       costs: [{ cost: '' }],
       id: nanoid(),
@@ -103,7 +103,7 @@ function Items() {
     for (let i = 0; i < data.expenses.length; i += 1) {
       dispatch(addExpense({
         id: data.expenses[i].id,
-        date: moment(data.expenses[i].date).format('yyyy-MM-DD').toString(),
+        date: moment(data.expenses[i].date).format('YYYY-MM-DD').toString(),
         item: data.expenses[i].item,
         costs: data.expenses[i].costs,
       }));

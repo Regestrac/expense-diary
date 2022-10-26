@@ -37,7 +37,7 @@ function ShowExpense() {
                   {expense?.item}
                   :
                 </div>
-                <div className="exp-date">{moment(expense?.date).format('DD-MM-yyyy').toString()}</div>
+                <div className="exp-date">{moment(expense?.date).format('DD-MM-YYYY').toString()}</div>
               </div>
               <div className="exp-cost">
                 <div className="each-cost">
